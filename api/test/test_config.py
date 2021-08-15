@@ -5,39 +5,39 @@ from flask import current_app
 from flask_testing import TestCase
 
 from manage import app
-from app.main.config import basedir
+from api.main.config import basedir
 
 
 class TestDevelopmentConfig(TestCase):
     def create_app(self):
-        app.config.from_object('app.main.config.DevelopmentConfig')
+        app.config.from_object('api.main.config.DevelopmentConfig')
         return app
 
     def test_app_is_development(self):
-        self.assertFalse(app.config['SECRET_KEY'] is 'secret')
+        self.assertFalse(app.config['SECRET_KEY'] == 'secret')
         self.assertTrue(app.config['DEBUG'] is True)
         self.assertFalse(current_app is None)
         self.assertTrue(
-            app.config['SQLALCHEMY_DATABASE_URI'] == 'sqlite:///' + os.path.join(basedir, 'flask_boilerplate_main.db')
+            app.config['SQLALCHEMY_DATABASE_URI'] == 'sqlite:///' + os.path.join(basedir, 'db_dev.db')
         )
 
 
 class TestTestingConfig(TestCase):
     def create_app(self):
-        app.config.from_object('app.main.config.TestingConfig')
+        app.config.from_object('api.main.config.TestingConfig')
         return app
 
     def test_app_is_testing(self):
-        self.assertFalse(app.config['SECRET_KEY'] is 'my_precious')
+        self.assertFalse(app.config['SECRET_KEY'] == 'secret')
         self.assertTrue(app.config['DEBUG'])
         self.assertTrue(
-            app.config['SQLALCHEMY_DATABASE_URI'] == 'sqlite:///' + os.path.join(basedir, 'flask_boilerplate_test.db')
+            app.config['SQLALCHEMY_DATABASE_URI'] == 'sqlite:///' + os.path.join(basedir, 'db_test.db')
         )
 
 
 class TestProductionConfig(TestCase):
     def create_app(self):
-        app.config.from_object('app.main.config.ProductionConfig')
+        app.config.from_object('api.main.config.ProductionConfig')
         return app
 
     def test_app_is_production(self):
