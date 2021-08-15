@@ -1,14 +1,15 @@
-from app.main import db
+from api.main import db
 import datetime
 
-class BlacklistTokens(db.Model):
+
+class BlacklistToken(db.Model):
     """
-    This blacklist the used token to avoid it's reuse. This stores the JWT tokens."""
+    Token Model for storing JWT tokens
+    """
+    __tablename__ = 'blacklist_tokens'
 
-    __tablename__  = 'blacklist_tokens'
-
-    id = db.Column(db.Integer, primary_key = True, autoincrement=True)
-    token = db.Column(db.String(500), unique = True, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    token = db.Column(db.String(500), unique=True, nullable=False)
     blacklisted_on = db.Column(db.DateTime, nullable=False)
 
     def __init__(self, token):
@@ -20,9 +21,9 @@ class BlacklistTokens(db.Model):
 
     @staticmethod
     def check_blacklist(auth_token: str) -> bool:
-        """Checks whether auth token has been blacklisted """
-        res = BlacklistTokens.query.filter_by(token=str(auth_token)).first()
+        # check whether auth token has been blacklisted
+        res = BlacklistToken.query.filter_by(token=str(auth_token)).first()
         if res:
-            retun True
+            return True
         else:
             return False

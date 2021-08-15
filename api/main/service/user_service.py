@@ -6,41 +6,45 @@ from api.main.model.user import User
 from typing import Dict, Tuple
 
 
-def save_new_user(data: Dict[str, str]) -> Tuple[Dict[str,str], int]:
+def save_new_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
+    """save the new user to the database"""
     user = User.query.filter_by(email=data['email']).first()
     if not user:
         new_user = User(
-            public_id = str(uuid.uuid4()),
+            public_id=str(uuid.uuid4()),
             email=data['email'],
             username=data['username'],
             password=data['password'],
-            registered_on = datetime.datetime.utcnow()
+            registered_on=datetime.datetime.utcnow()
         )
         save_changes(new_user)
         return generate_token(new_user)
     else:
-        response_object ={
+        response_object = {
             'status': 'fail',
-            'message': 'User already exists. Please Log in.'
+            'message': 'User already exists. Please Log in.',
         }
-        return response_object, 404
+        return response_object, 409
+
 
 def get_all_users():
-    """Get all the registered users """
+    """list of all the users"""
     return User.query.all()
 
+
 def get_a_user(public_id):
-    """Get a specific user"""
+    """get the user details with the public id"""
     return User.query.filter_by(public_id=public_id).first()
 
-def generate_token(user: User) -> Tuple(Dict[str,str], int):
-    """Generates a new token for the user"""
+
+def generate_token(user: User) -> Tuple[Dict[str, str], int]:
+    """generate the token for the user """
     try:
         auth_token = User.encode_auth_token(user.id)
         response_object = {
             'status': 'success',
             'message': 'Successfully registered.',
-            'Authorization':auth_token.decode()
+            'Authorization': auth_token.decode()
         }
         return response_object, 201
     except Exception as e:
@@ -50,6 +54,9 @@ def generate_token(user: User) -> Tuple(Dict[str,str], int):
         }
         return response_object, 401
 
+
 def save_changes(data: User) -> None:
+    """save the changes """
     db.session.add(data)
     db.session.commit()
+

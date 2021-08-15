@@ -1,15 +1,26 @@
-from flask_restful import Api
+from flask_restx import Api
 from flask import Blueprint
 
-#Flask Blueprint
-blueprint = Blueprint('api',__name__)
+from .main.controller.user_controller import api as user_ns
+from .main.controller.auth_controller import api as auth_ns
 
-#configure the api 
-api = Api(blueprint,
-title='FLASK MOVIES API',
-version='1.0',
-authorization=authorizations,
-security='apikey'
+blueprint = Blueprint('api', __name__)
+authorizations = {
+    'apikey': {
+        'type': 'apiKey',
+        'in': 'header',
+        'name': 'Authorization'
+    }
+}
+
+api = Api(
+    blueprint,
+    title='FLASK Movie API',
+    version='1.0',
+    description='a movie api developed using python flask',
+    authorizations=authorizations,
+    security='apikey'
 )
 
-#Add resources
+api.add_namespace(user_ns, path='/user')
+api.add_namespace(auth_ns)

@@ -1,13 +1,13 @@
-import datetime
 from api.main import db, flask_bcrypt
-import jwt
+import datetime
+from api.main.model.blacklist import BlacklistToken
 from ..config import key
+import jwt
 from typing import Union
-from api.main.model.blacklist import BlacklistTokens
 
 
 class User(db.Model):
-    """ User model for storing the information of the users """
+    """ User Model for storing the data of the users"""
     __tablename__ = "user"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -24,15 +24,17 @@ class User(db.Model):
 
     @password.setter
     def password(self, password):
+        """ set the password for the user"""
         self.password_hash = flask_bcrypt.generate_password_hash(password).decode('utf-8')
 
-    def check_password(self, password:str) -> bool:
+    def check_password(self, password: str) -> bool:
+        """check is the password is correct """
         return flask_bcrypt.check_password_hash(self.password_hash, password)
 
     @staticmethod
-    def encode_auth_token(user_id: int)-> bytes:
+    def encode_auth_token(user_id: int) -> bytes:
         """
-        Generate the Auth tokens
+        Generates the Auth Token
         :return: string
         """
         try:
@@ -42,7 +44,7 @@ class User(db.Model):
                 'sub': user_id
             }
             return jwt.encode(
-                payload= payload,
+                payload,
                 key,
                 algorithm='HS256'
             )
@@ -51,19 +53,19 @@ class User(db.Model):
 
     @staticmethod
     def decode_auth_token(auth_token: str) -> Union[str, int]:
-        """Decodes the auth token
+        """
+        Decodes the auth token
         :param auth_token:
         :return: integer|string
         """
         try:
-            payload= jwt.decode(auth_token, key)
-            is_blacklisted_token = BlacklistTokens.check_blacklist(auth_token)
+            payload = jwt.decode(auth_token, key)
+            is_blacklisted_token = BlacklistToken.check_blacklist(auth_token)
             if is_blacklisted_token:
                 return 'Token blacklisted. Please log in again.'
             else:
                 return payload['sub']
-
-        except jwt.ExpiredSignature:
+        except jwt.ExpiredSignatureError:
             return 'Signature expired. Please log in again.'
         except jwt.InvalidTokenError:
             return 'Invalid token. Please log in again.'

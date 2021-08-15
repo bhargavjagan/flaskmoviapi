@@ -16,6 +16,9 @@ flask-restful = "*"
 flask-testing = "*"
 gunicorn = "*"
 flask-apispec = "*"
+flask-restplus = "*"
+flask-restx = "*"
+flask-cors = "*"
 
 [dev-packages]
 
