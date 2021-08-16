@@ -8,7 +8,6 @@ flask = "==1.1.4"
 flask-script = "*"
 flask-sqlalchemy = "*"
 flask-marshmallow = "*"
-flask-migrate = "*"
 flask-jwt-extended = "*"
 flask-bcrypt = "*"
 pyjwt = "*"
@@ -19,6 +18,7 @@ flask-apispec = "*"
 flask-restplus = "*"
 flask-restx = "*"
 flask-cors = "*"
+flask-migrate = "*"
 
 [dev-packages]
 

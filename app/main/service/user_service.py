@@ -1,8 +1,8 @@
 import uuid
 import datetime
 
-from api.main import db
-from api.main.model.user import User
+from app.main import db
+from app.main.model.user import User
 from typing import Dict, Tuple
 
 

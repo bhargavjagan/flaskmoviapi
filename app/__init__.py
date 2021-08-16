@@ -15,9 +15,10 @@ authorizations = {
 
 api = Api(
     blueprint,
-    title='FLASK Movie API',
-    version='1.0',
-    description='a movie api developed using python flask',
+    title='Movies API',
+    version='1.0.0',
+    description='Movie API is a web based REST API which can be used in various projects by web developers and even developers working on \
+application development which needs to utilize any feature of IMDb website. This API will enable developers to get data according to their needs in an easy to read javascript object-notation (JSON) format.',
     authorizations=authorizations,
     security='apikey'
 )

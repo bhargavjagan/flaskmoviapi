@@ -2,9 +2,9 @@ import unittest
 
 import datetime
 
-from api.main import db
-from api.main.model.user import User
-from api.test.base import BaseTestCase
+from app.main import db
+from app.main.model.user import User
+from app.test.base import BaseTestCase
 
 
 class TestUserModel(BaseTestCase):

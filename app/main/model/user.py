@@ -1,6 +1,6 @@
-from api.main import db, flask_bcrypt
+from app.main import db, flask_bcrypt
 import datetime
-from api.main.model.blacklist import BlacklistToken
+from app.main.model.blacklist import BlacklistToken
 from ..config import key
 import jwt
 from typing import Union

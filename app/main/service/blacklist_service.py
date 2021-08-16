@@ -1,6 +1,6 @@
-from api.main import db
+from app.main import db
 
-from api.main.model.blacklist import BlacklistToken
+from app.main.model.blacklist import BlacklistToken
 from typing import Dict, Tuple
 
 

@@ -1,9 +1,9 @@
 import unittest
 
-from api.main import db
-from api.main.model.blacklist import BlacklistToken
+from app.main import db
+from app.main.model.blacklist import BlacklistToken
 import json
-from api.test.base import BaseTestCase
+from app.test.base import BaseTestCase
 
 
 def register_user(self):
