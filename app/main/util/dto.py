@@ -1,5 +1,9 @@
 from flask_restx import Namespace, fields
 
+"""
+DTO : data transfer object - It is responsible for carrying data between processes.
+"""
+
 
 class UserDto:
     api = Namespace('user', description='user related operations')

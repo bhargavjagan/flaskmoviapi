@@ -20,6 +20,7 @@ migrate = Migrate(app, db)
 
 @manager.command
 def run():
+    """Run the flask application."""
     app.run()
 
 @manager.command
