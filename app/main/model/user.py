@@ -4,6 +4,7 @@ from app.main.model.blacklist import BlacklistToken
 from ..config import key
 import jwt
 from typing import Union
+import logging
 
 
 class User(db.Model):
@@ -59,8 +60,10 @@ class User(db.Model):
         :return: integer|string
         """
         try:
-            payload = jwt.decode(auth_token, key)
+            payload = jwt.decode(auth_token, key,algorithms='HS256')
+            logging.debug(payload)
             is_blacklisted_token = BlacklistToken.check_blacklist(auth_token)
+            logging.debug(is_blacklisted_token)
             if is_blacklisted_token:
                 return 'Token blacklisted. Please log in again.'
             else:

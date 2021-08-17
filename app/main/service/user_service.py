@@ -4,7 +4,7 @@ import datetime
 from app.main import db
 from app.main.model.user import User
 from typing import Dict, Tuple
-
+import logging
 
 def save_new_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
     """save the new user to the database"""
@@ -44,7 +44,7 @@ def generate_token(user: User) -> Tuple[Dict[str, str], int]:
         response_object = {
             'status': 'success',
             'message': 'Successfully registered.',
-            'Authorization': auth_token.decode()
+            'Authorization': auth_token
         }
         return response_object, 201
     except Exception as e:

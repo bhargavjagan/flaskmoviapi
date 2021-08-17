@@ -1,6 +1,7 @@
 from app.main.model.user import User
 from ..service.blacklist_service import save_token
 from typing import Dict, Tuple
+import logging
 
 
 class Auth:
@@ -9,15 +10,16 @@ class Auth:
     def login_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
         """Login the user """
         try:
-            # fetch the user data
+            
             user = User.query.filter_by(email=data.get('email')).first()
+            
             if user and user.check_password(data.get('password')):
                 auth_token = User.encode_auth_token(user.id)
                 if auth_token:
                     response_object = {
                         'status': 'success',
                         'message': 'Successfully logged in.',
-                        'Authorization': auth_token.decode()
+                        'Authorization': auth_token
                     }
                     return response_object, 200
             else:
