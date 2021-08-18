@@ -3,6 +3,7 @@ import unittest
 import os, json
 
 import logging, datetime
+from app.app_config import DATA_DIR, LOG_DIR
 
 def exception_handler(func):
     def wrapper_func(*args, **kwargs):
@@ -13,11 +14,12 @@ def exception_handler(func):
             print(e)
     return wrapper_func
             
-basedir = 'C:\\Users\\bharg\\Documents\\test\\flaskmovieapi\\app\\main'
-logging.basicConfig(filename='C:\\Users\\bharg\\Documents\\test\\flaskmovieapi\\app\\test\\logs\\example.log', encoding='utf-8', level=logging.DEBUG)
+data_basedir = DATA_DIR
+logs_dir = LOG_DIR
+logging.basicConfig(filename= os.path.join(logs_dir,'load_data.log'), encoding='utf-8', level=logging.DEBUG)
 
 
-class TestDB():
+class DB():
     conn = None
     movies_info = []
     genre_info = []
@@ -26,7 +28,7 @@ class TestDB():
     @exception_handler
     def make_connection(self,environment='dev'):
         env_sb_map = {'dev':'db_dev.db','test':'db_test.db'}
-        path =   os.path.join(basedir,env_sb_map[environment])
+        path =   os.path.join(data_basedir,env_sb_map[environment])
         self.conn = sqlite3.connect(path)
         if self.conn:
             logging.info('Connecetion created.')
@@ -38,7 +40,8 @@ class TestDB():
     def split_data(self):
         logging.info('Started the function split data.')
         data = ""
-        with open(r"C:\Users\bharg\Documents\test\flaskmovieapi\app\test\data\movies.json",'r') as f_ptr:
+        file_path = os.path.join(data_basedir, 'movies.json')
+        with open(file_path,'r') as f_ptr:
             data = json.loads(f_ptr.read())
         
         for i in range(len(data)):
@@ -60,11 +63,9 @@ class TestDB():
         
     @exception_handler
     def insert(self):
-        logging.info('Insert function started.')
+        logging.info('Data load function started!')
         cur = self.conn.cursor()
         for i in self.genre_info:
-            logging.debug(type(i))
-            logging.debug(i)
             genre_stmt = """INSERT INTO genre ('name') VALUES(?);"""
             cur.execute(genre_stmt,(i,))
         self.conn.commit()
@@ -74,35 +75,37 @@ class TestDB():
             movies_stmt = """INSERT INTO movie ('popularity','director','name','created_on','imdb_score') VALUES (?,?,?,?,?)"""
             cur.execute(movies_stmt,(movie['99popularity'],movie['director'], movie['name'],str(datetime.datetime.utcnow()) ,movie['imdb_score']))
         self.conn.commit()
-        logging.info('completed the insert function.')
+        logging.info('Data for movie and genre completed.')
 
     @exception_handler
-    def select(self):
+    def insert_movie_genre(self):
         cur = self.conn.cursor()
+        """
         movies = cur.execute('select * from movie').fetchall()
         list_of_movies = [movie[4] for movie in movies]
         genres = cur.execute('select * from genre').fetchall()
         genre_list = [genre[1] for genre in genres]
-        
+        """
         moveigenre_stmt = "INSERT INTO moviegenre ('movie_name', 'genre_name') VALUES (?,?)"
         
         for record in self.movie_genre_info:
             #cur.execute(moveigenre_stmt, (movies[list_of_movies.index(record['movie'])][0],genres[genre_list.index(record['genre'])][0]))
             cur.execute(moveigenre_stmt, (record['movie'],record['genre']))
         self.conn.commit()
-        logging.info('Data load to the table movie genre completed.')
+        logging.info('Data load to the table movie genre completed :'+str(len(self.movie_genre_info)))
 
     @exception_handler
     def drop_all(self):
         cur = self.conn.cursor()
         cur.execute('DROP TABLE IF EXISTS movie ')
+        logging.debug('Dropped movie table.')
         cur.execute('DROP TABLE IF EXISTS genre')
+        logging.debug('Dropped genre table.')
         cur.execute('DROP TABLE IF EXISTS moviegenre')
+        logging.debug('Dropped moviegenre table.')
         self.conn.commit()
 
-
-
-
+"""
 if __name__ == "__main__":
     instance = TestDB()
     instance.split_data()
@@ -111,4 +114,4 @@ if __name__ == "__main__":
     instance.insert()
     instance.select()
     #instance.drop_all()
-
+"""

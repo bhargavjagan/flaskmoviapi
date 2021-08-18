@@ -1,10 +1,11 @@
 import logging
 import os
+from app.app_config import LOG_DIR
 
 from datetime import datetime
 
-dir_path = os.path.dirname(os.path.realpath(__file__))
-
+#dir_path = os.path.dirname(os.path.realpath(__file__))
+dir_path = LOG_DIR
 
 def initialize_logger(output_dir):
     """Initialize logging."""

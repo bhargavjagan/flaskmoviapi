@@ -1,5 +1,6 @@
 import os 
 import unittest
+import logging
 
 from flask_migrate import Migrate
 from flask_script import Manager
@@ -22,17 +23,45 @@ migrate = Migrate(app, db)
 @manager.command
 def run():
     """Run the flask application."""
+    logging.info('Application is running.')
     db.create_all()
     app.run()
 
 @manager.command
 def test():
     """Runs all the unit tests"""
+    logging.info("TestRun")
     tests = unittest.TestLoader().discover('app/test','test*.py')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
+    logging.debug(resukt)
     if result.wasSuccessful():
+        logging.info("Test was successfull.")
         return 0
+    logging.info("Test was un-successfull.")
     return 1
+    
+
+from app.main.util.load_db import DB
+
+@manager.command
+def data_load():
+    """Load the initial data"""
+    logging.info('Data Load started.')
+    db_instance = DB()
+    db_instance.split_data()
+    db_instance.make_connection()
+    db_instance.insert()
+    db_instance.insert_movie_genre()
+    logging.info('Data load completed.')
+
+@manager.command
+def drop_data():
+    """Drop the data of the movies table"""
+    db_instance = DB()
+    db_instance.make_connection()
+    db_instance.drop_all()
+    logging.info("Data is successfully dropped from the database.")
+
 
 if __name__ == "__main__":
     manager.run()

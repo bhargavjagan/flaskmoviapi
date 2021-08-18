@@ -1,9 +1,11 @@
 from flask_restx import Api
 from flask import Blueprint
+from .app_config import APP_DIR,LOG_DIR,DATA_DIR,MAIN_DIR
 
 from .main.controller.user_controller import api as user_ns
 from .main.controller.auth_controller import api as auth_ns
 from .main.controller.movie_controller import api as movie_ns
+import logging
 
 blueprint = Blueprint('api', __name__)
 authorizations = {

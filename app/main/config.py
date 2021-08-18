@@ -1,6 +1,8 @@
-import os
+import os,logging
+from app.app_config import DATA_DIR
 
-basedir = os.path.abspath(os.path.dirname(__file__))
+#basedir = os.path.abspath(os.path.dirname(__file__))
+basedir = DATA_DIR
 
 
 class Config:

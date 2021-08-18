@@ -1,6 +1,7 @@
 from app.main import db
 from datetime import datetime
 from typing import List
+import logging
 
 class Movie(db.Model):
     """ Movies model stores the information of the movies. """

@@ -1,5 +1,6 @@
 from app.main import db
 import datetime
+import logging
 
 
 class BlacklistToken(db.Model):

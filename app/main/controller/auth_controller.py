@@ -5,6 +5,8 @@ from app.main.service.auth_helper import Auth
 from ..util.dto import AuthDto
 from typing import Dict, Tuple
 
+import logging
+
 api = AuthDto.api
 user_auth = AuthDto.user_auth
 
