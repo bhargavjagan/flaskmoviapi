@@ -1,4 +1,4 @@
-# Flask Movie API[https://flaskmovieapi.herokuapp.com/](https://flaskmovieapi.herokuapp.com/)
+# [Flask Movie API](https://flaskmovieapi.herokuapp.com/)
 
 It is a movies rest api developed using flask and sqlite.
 
