@@ -18,6 +18,7 @@ def save_new_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
             registered_on=datetime.datetime.utcnow()
         )
         save_changes(new_user)
+        logging.debug(data)
         return generate_token(new_user)
     else:
         response_object = {

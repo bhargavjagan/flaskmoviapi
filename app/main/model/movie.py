@@ -25,9 +25,6 @@ class Movie(db.Model):
     def __repr__(self):
         return '<Movie {}: {}>'.format(self.movie_id, self.name)
 
-    def save_new_movie(data):
-        """Insert the data of new movies into the database."""
-        movie = Movie.query.filter_by(movie)
 
 class Genre(db.Model):
     """ Genre model stores the types of genres of movies."""

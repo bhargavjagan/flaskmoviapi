@@ -10,7 +10,6 @@ class Auth:
     def login_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
         """Login the user """
         try:
-            
             user = User.query.filter_by(email=data.get('email')).first()
             
             if user and user.check_password(data.get('password')):
@@ -66,8 +65,11 @@ class Auth:
     def get_logged_in_user(new_request):
         """get the auth token of the logged-in user"""
         auth_token = new_request.headers.get('Authorization')
+        
         if auth_token:
+            auth_token = auth_token.split(" ")[1]
             resp = User.decode_auth_token(auth_token)
+       
             if not isinstance(resp, str):
                 user = User.query.filter_by(id=resp).first()
                 response_object = {

@@ -30,7 +30,7 @@ class LogoutAPI(Resource):
     Logout Resource
     """
     @api.doc('logout a user')
-    def post(self) -> Tuple[Dict[str, str], int]:
+    def post(self):
         # get auth token
         auth_header = request.headers.get('Authorization')
         return Auth.logout_user(data=auth_header)

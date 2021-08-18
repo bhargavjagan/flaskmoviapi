@@ -4,11 +4,14 @@ from app.main import db
 from app.main.model.blacklist import BlacklistToken
 import json
 from app.test.base import BaseTestCase
+import logging
 
 
 def register_user(self):
+    logging.info('register_user')
+    
     return self.client.post(
-        '/user/',
+        '/api/v1/user/',
         data=json.dumps(dict(
             email='user1@gmail.com',
             username='user1',
@@ -20,7 +23,7 @@ def register_user(self):
 
 def login_user(self):
     return self.client.post(
-        '/auth/login',
+        '/api/v1/auth/login',
         data=json.dumps(dict(
             email='user1@gmail.com',
             password='Pass123456'
@@ -35,7 +38,7 @@ class TestAuthBlueprint(BaseTestCase):
         with self.client:
             response = register_user(self)
             data = json.loads(response.data.decode())
-            self.assertTrue(data['status'] is 'success')
+            self.assertTrue(data['status'] == 'success')
             self.assertTrue(data['message'] == 'Successfully registered.')
             self.assertTrue(data['Authorization'])
             self.assertTrue(response.content_type == 'application/json')
@@ -108,7 +111,7 @@ class TestAuthBlueprint(BaseTestCase):
             self.assertEqual(resp_login.status_code, 200)
             # valid token logout
             response = self.client.post(
-                '/auth/logout',
+                '/api/v1/auth/logout',
                 headers=dict(
                     Authorization='Bearer ' + json.loads(
                         resp_login.data.decode()
@@ -147,7 +150,7 @@ class TestAuthBlueprint(BaseTestCase):
             db.session.commit()
             # blacklisted valid token logout
             response = self.client.post(
-                '/auth/logout',
+                '/api/v1/auth/logout',
                 headers=dict(
                     Authorization='Bearer ' + json.loads(
                         resp_login.data.decode()

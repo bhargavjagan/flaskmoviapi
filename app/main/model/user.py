@@ -33,7 +33,7 @@ class User(db.Model):
         return flask_bcrypt.check_password_hash(self.password_hash, password)
 
     @staticmethod
-    def encode_auth_token(user_id: int) -> bytes:
+    def encode_auth_token(user_id: int):
         """
         Generates the Auth Token
         :return: string
@@ -53,15 +53,17 @@ class User(db.Model):
             return e
 
     @staticmethod
-    def decode_auth_token(auth_token: str) -> Union[str, int]:
+    def decode_auth_token(auth_token: str):
         """
         Decodes the auth token
         :param auth_token:
         :return: integer|string
         """
         try:
-            payload = jwt.decode(auth_token, key,algorithms='HS256')
+            payload = jwt.decode(auth_token,key,algorithms="HS256")
+            
             logging.debug(payload)
+            
             is_blacklisted_token = BlacklistToken.check_blacklist(auth_token)
             logging.debug(is_blacklisted_token)
             if is_blacklisted_token:

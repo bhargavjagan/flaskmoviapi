@@ -19,6 +19,7 @@ flask-restplus = "*"
 flask-restx = "*"
 flask-cors = "*"
 flask-migrate = "*"
+requests = "*"
 
 [dev-packages]
 
