@@ -108,6 +108,4 @@ ENV/
 
 #misc
 run.bat
-/data
-/logs
 *.log
