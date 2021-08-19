@@ -1,11 +1,11 @@
-# Flask Movie API
+# [Flask Movie API](https://flaskmovieapi.herokuapp.com/)
 
 It is a movies rest api developed using flask and sqlite.
 
 Movie API is a web based REST API which can be used in various projects by web developers and even developers working on application development which needs to utilize any feature of IMDb website. This API will enable developers to get data according to their needs in an easy to read javascript object-notation (JSON) format.
 
 ## Project Directory Structure
-
+```
 |flask_movie_api    #Project Directory
 |  
 |--.github          
@@ -53,6 +53,8 @@ Movie API is a web based REST API which can be used in various projects by web d
 |--runtime.txt          #python runtime version for heroku deployment 
 |--Pipfile              #Pipenv - python dependencies
 |--requirements.txt     #packages 
+
+```
 
 ### Installation
 
@@ -160,9 +162,9 @@ In case there is not update to the database, use the below command
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
+2. Create your Feature Branch (`git checkout -b feature/Feature`)
+3. Commit your Changes (`git commit -m 'Add some Feature'`)
+4. Push to the Branch (`git push origin feature/Feature`)
 5. Open a Pull Request
 
 
@@ -177,7 +179,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Bhargav Dadi 
+Bhargav Dadi [Github](https://github.com/bhargavjagan)
 
 Project Link: [https://github.com/bhargavjagan/flaskmovieapi.git](https://github.com/bhargavjagan/flaskmovieapi.git)
 
