@@ -1,0 +1,44 @@
+#Usecase
+Once deployed, suppose this application became very famous and started to receive a
+ton of traffic. Your application now contains metadata about 5M movies and receives
+15M API hits per day both from anonymous as well as authenticated users. Suggest an
+architecture to scale up this system to 5x of these specs. You can also think of potential
+bottlenecks at all layers of the stack and how you will solve for these.
+
+#Analysis
+metadata = 5 Million movies storage
+request per day = 5 million api calls/day - (anonymous and authenticated users)
+scale to 5x
+
+Solution:-
+1. Infrastructure Scalling:
+	As we have deployed our application, it is easy for us to vertically or horizintally scale the server. we can use the auto scalling group
+	and load balancer to scale the server depending on the requirement. We can choose wisely between serverless servuces like lambda, s3 and ebs 
+	for quick and instant compute or storage.
+
+2. Framework Choice:
+	As python has a huge developer, we have many packages to choose from according to the requirement. So, in this case instead of using Flask, 
+	which is built over WSGI, we can choose FastAPI, which is nuilt on ASGI. 
+
+3. Caching and Storage:
+	we can also wisely choose the right database to store the data. There are many in-memory database that helps us in faster execution than a sql 
+	database. Example: Redis for faster performance. we can also use the right caching methods to store the right data mostly the indexes in the primary
+	and others in the secondary memory.
+
+4. Microservice Architecture:
+	we will split the service like authentication from others which will have its own database and auth service. Once a user gets authenticated, they can
+	can call the required service as this can decrease the load the main service.
+
+5. DBMS and Data model:
+	we can improve and optimise the SQL queries to improve the performance of the system. Methods like indezing can helps us in faster retrival of data from the db.
+	Also, we can optimise the data model by creating the right data model for the right requirement. Eg Starschema for BI
+	we can also decide the huge data into small piece using namespace and can be put in a faster processing memory if needed.
+
+6. Code Qualtiy and Standards:
+	Using the right datastructure and right algorithm can really save us time. So, coding standard are really important like SOLID principles. we can decrease the 
+	rate of calls by optimsing the code to make one call instead of many. decorator, factory design pattern and others helps us in writing a clean code and also
+	by optimising the function call.
+
+7. A seperate metadata storage:
+	we will serve the anonymous user the metadata instead of providing them the data using the authentication service which cuts the load by 30 - 50%.
+	
